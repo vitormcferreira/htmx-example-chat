@@ -1,0 +1,12 @@
+<textarea
+  id="text_textarea"
+  name="{{ form.text.name }}"
+  required
+  rows="3"
+  placeholder="Type your message..."
+  class="form-control fs-3 rounded-0 rounded-start"
+  style="resize: none"
+  {% if hx_swap_oob %}hx-swap-oob="{{ hx_swap_oob }}"{% endif %}
+  x-data
+  x-init="$el.focus()"
+  ></textarea>

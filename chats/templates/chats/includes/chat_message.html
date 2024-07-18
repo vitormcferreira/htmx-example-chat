@@ -1,0 +1,18 @@
+<article id="chat_message_{{ message.pk }}" x-data x-init="$el.scrollIntoView()">
+  <input name="message_pk" type="hidden" value="{{ chat_message.pk }}">
+  <div class="p-4"></div>
+  <div class="d-flex justify-content-between">
+    <div><small class="text-muted fs-6">{{ chat_message.created_at }}</small></div>
+    {% comment %} <button
+      name="delete_message_btn"
+      type="button"
+      class="btn btn-danger"
+      hx-delete="{% url 'chats:remove_message' chat_message.pk %}"
+      hx-swap="delete"
+      hx-target="#chat_message_{{ message.pk }}"
+      hx-sync="[name='chat_messages_section']:replace"
+      >Remove</button> {% endcomment %}
+  </div>
+  <div class="small"><b>{{ chat_message.user.get_full_name }}</b> </div>
+  <p><pre class="text-break" style="white-space: pre-wrap; font-family: var(--bs-body-font-family);">{{ chat_message.text }}</pre></p>
+</article>

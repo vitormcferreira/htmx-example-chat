@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block main %}
+  <div class="vh-100 d-flex flex-column fs-3">
+    <section class="m-2 rounded d-flex justify-content-between">
+      <input
+        value="{{ request.user.get_full_name }}"
+        type="text"
+        class="form-control w-auto fs-3 rounded"
+        disabled
+        required>
+      {% include './includes/chat_message_count.html' %}
+    </section>
+    <section
+      id="chat_messages_section"
+      tabindex="-1"
+      class="m-2 flex-grow-1 overflow-scroll rounded p-5 border border-light-subtle"
+      style="scroll-behavior: smooth;"
+      hx-get="{% url 'chats:get_messages' request.user.pk %}"
+      hx-trigger="every 1s, htmx:afterRequest from:#chat_form"
+      hx-include="article:last-child [name='message_pk']"
+      hx-swap="beforeend"
+      >
+      {% include './includes/chat_messages.html' %}
+    </section>
+    <section class="m-2">
+      <form
+        id="chat_form"
+        method="post"
+        action="{% url 'chats:send_message' %}"
+        hx-swap="none"
+        hx-push-url="false"
+        >
+        <div class="d-flex gap-2">
+          {% include './includes/text_textarea.html' %}
+          <button type="submit" class="btn btn-primary fs-3 rounded-0 rounded-end px-4">Send</button>
+        </div>
+      </form>
+    </section>
+  </div>
+{% endblock main %}
